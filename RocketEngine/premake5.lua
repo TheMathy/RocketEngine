@@ -11,7 +11,7 @@ project "RocketEngine"
 
     links
     {
-        "vendor/GLFWold/lib-x86_64/glfw3",
+        "GLFW",
         "Glad",
         "OpenGL.framework",
         "Cocoa.framework",
