@@ -1,9 +1,9 @@
 #include <iostream>
 
-#include "RocketEngine/Window/Window.h"
+#include "RocketEngine/Core/Window/Window.h"
 
-#include "RocketEngine/MasterRenderer/MasterRenderer.h"
-#include "RocketEngine/Loaders/Loaders.h"
+#include "RocketEngine/Core/MasterRenderer/MasterRenderer.h"
+#include "RocketEngine/Core/Loaders/Loaders.h"
 
 int main()
 {
