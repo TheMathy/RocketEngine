@@ -3,10 +3,56 @@
 #include <fstream>
 #include <sstream>
 
+#include <stb_image.h>
+
 #include "RocketEngine/DebuggingTools/ScopeTimer.h"
 
 namespace RocketEngine
 {
+    ShaderSources Loaders::LoadShaderImp(const std::string& filePath)
+    {
+        std::fstream fileStream(filePath);
+        
+        enum class ShaderType
+        {
+            NONE = -1, VERTEX = 0, FRAGMENT = 1
+        };
+
+        std::string line;
+        std::stringstream stringStream[2];
+        ShaderType type = ShaderType::NONE;
+
+        while (getline(fileStream, line))
+        {
+            if (line.find("#shader") != std::string::npos)
+            {
+                if (line.find("vertex") != std::string::npos)
+                    type = ShaderType::VERTEX;
+                if (line.find("fragment") != std::string::npos)
+                    type = ShaderType::FRAGMENT;
+            }
+            else
+            {
+                stringStream[(int)type] << line << "\n";
+            }
+        }
+
+        ShaderSources shaderSources;
+        shaderSources.VertexSource = stringStream[0].str();
+        shaderSources.FragmentSource = stringStream[1].str();
+
+        return shaderSources;
+    }
+
+    Image Loaders::LoadImageImp(const std::string& filePath)
+    {
+        Image image;
+        stbi_set_flip_vertically_on_load(1);
+        image.localBuffer = stbi_load(filePath.c_str(), &image.width, &image.height, &image.BPP, 4);
+
+        return image;
+    }
+
     std::shared_ptr<Mesh> Loaders::LoadObjFileImp(const std::string& filePath)
     {
         RocketEngine::DebuggingTools::ScopeTimer scopeTimer;

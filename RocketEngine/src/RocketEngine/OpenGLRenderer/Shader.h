@@ -7,7 +7,7 @@
 
 namespace RocketEngine
 {
-    struct ShaderProgramSource
+    struct ShaderSources
     {
         std::string VertexSource;
         std::string FragmentSource;
@@ -16,7 +16,7 @@ namespace RocketEngine
     class Shader
     {
     public:
-        Shader(const std::string& filePath);
+        Shader(const ShaderSources& shaderSources);
         ~Shader();
 
         void Bind() const;
@@ -31,11 +31,9 @@ namespace RocketEngine
         
     private:
         unsigned int m_RendererID;
-        std::string m_FilePath;
         std::unordered_map<std::string, int> m_UniformLocationCache;
 
     private:
-        ShaderProgramSource ParseShader(const std::string& filePath);
         unsigned int CompileShader(unsigned int type, const std::string& source);
         unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader);
 

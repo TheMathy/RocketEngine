@@ -4,10 +4,20 @@
 
 namespace RocketEngine
 {
+    struct Image
+    {
+    public:
+        unsigned char* localBuffer;
+        int width, height;
+        int BPP;
+    public:
+        void ClearLocalBuffer();
+    };
+
     class Texture
     {
     public:
-        Texture(const std::string& filePath);
+        Texture(Image image);
         ~Texture();
 
         void Bind(unsigned int slot = 0) const;

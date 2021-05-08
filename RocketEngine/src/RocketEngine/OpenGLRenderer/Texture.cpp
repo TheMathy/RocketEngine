@@ -1,18 +1,22 @@
 #include "RocketEngine/OpenGLRenderer/Texture.h"
 
 #include <glad/glad.h>
+
 #include <stb_image.h>
 
 #include "RocketEngine/OpenGLRenderer/GLCall.h"
 
 namespace RocketEngine
 {
-    Texture::Texture(const std::string& filePath)
-        : m_RendererID(0), m_FilePath(filePath), m_LocalBuffer(nullptr), m_Width(0), m_Height(0), m_BPP(0)
+    void Image::ClearLocalBuffer()
     {
-        stbi_set_flip_vertically_on_load(1);
-        m_LocalBuffer = stbi_load(filePath.c_str(), &m_Width, &m_Height, &m_BPP, 4);
+        if (localBuffer)
+            stbi_image_free(localBuffer);
+    }
 
+    Texture::Texture(Image image)
+        : m_RendererID(0)
+    {
         GLCall(glGenTextures(1, &m_RendererID));
         GLCall(glBindTexture(GL_TEXTURE_2D, m_RendererID));
 
@@ -21,11 +25,10 @@ namespace RocketEngine
         GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
         GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
 
-        GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_LocalBuffer))
+        GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image.width, image.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.localBuffer))
         GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 
-        if (m_LocalBuffer)
-            stbi_image_free(m_LocalBuffer);
+        image.ClearLocalBuffer();
     }
 
     Texture::~Texture()

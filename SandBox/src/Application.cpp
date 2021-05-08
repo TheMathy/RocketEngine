@@ -11,10 +11,9 @@ int main()
     RocketEngine::Window window("SandBox", 1920.0f, 1080.0f);
 
     // Load shader
-    std::shared_ptr<RocketEngine::Shader> shader = std::make_shared<RocketEngine::Shader>("SandBox/Assets/Shaders/Main.shader");
+    std::shared_ptr<RocketEngine::Shader> shader = std::make_shared<RocketEngine::Shader>(RocketEngine::Loaders::LoadShader("SandBox/Assets/Shaders/Main.shader"));
     // Load texture
-    std::shared_ptr<RocketEngine::Texture> texture = std::make_shared<RocketEngine::Texture>("SandBox/Assets/Textures/Texture.png");
-
+    std::shared_ptr<RocketEngine::Texture> texture = std::make_shared<RocketEngine::Texture>(RocketEngine::Loaders::LoadImage("SandBox/Assets/Textures/Texture.png"));
     // Create RocketEngine Mesh
     std::shared_ptr<RocketEngine::Mesh> mesh = RocketEngine::Loaders::LoadObjFile("SandBox/Assets/Models/Cube.obj");
     // Create RocketEngine Material
