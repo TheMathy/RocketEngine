@@ -49,13 +49,13 @@ namespace RocketEngine
 
             std::vector<GameObject*> objects = objectsGroup.second;
 
-            std::shared_ptr<Mesh> mesh = objects[0]->GetMesh();
-
-            mesh->GetVertexArray().Bind();
-            mesh->GetIndexBuffer().Bind();
-
             for ( auto object : objects )
             {
+                std::shared_ptr<Mesh> mesh = object->GetMesh();
+
+                mesh->GetVertexArray().Bind();
+                mesh->GetIndexBuffer().Bind();
+
                 shader->SetUniformMat4f("u_ProjectionMatrix", camera.GetProjectionMatrix());
                 shader->SetUniformMat4f("u_ViewMatrix", camera.GetViewMatrix());
                 shader->SetUniformMat4f("u_ModelMatrix", object->transform.GetModelMatrix());
@@ -68,8 +68,8 @@ namespace RocketEngine
 
                 GLCall(glDrawElements(GL_TRIANGLES, mesh->GetIndexBuffer().GetCount(), GL_UNSIGNED_INT, nullptr));
 
-                //mesh->GetVertexArray().Unbind();
-                //mesh->GetIndexBuffer().Unbind();            
+                mesh->GetVertexArray().Unbind();
+                mesh->GetIndexBuffer().Unbind();            
             }
         }
         m_ObjectMaterialBatch.clear();
