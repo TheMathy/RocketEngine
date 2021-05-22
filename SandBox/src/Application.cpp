@@ -1,16 +1,17 @@
 #include <iostream>
 
-#include <glad/glad.h>
-
 #include "RocketEngine/Core/Window/Window.h"
 
 #include "RocketEngine/Core/MasterRenderer/MasterRenderer.h"
 #include "RocketEngine/Core/Loaders/Loaders.h"
+#include "RocketEngine/Core/Input/Input.h"
 
 #include "RocketEngine/Terrain/Terrain.h"
 
 int main()
 {
+    // "using namespace RocketEngine" is possible but it is not used for better visibility
+
     // Create new RocketEngine Window
     RocketEngine::Window window("SandBox", 1920.0f, 1080.0f);
 
@@ -48,9 +49,22 @@ int main()
     while (!glfwWindowShouldClose(static_cast<GLFWwindow*>(window.GetNativeWindow())))
     {
         // ---APPLICATION ON UPDATA---
-        // Update object rotation
-        object.transform.rotation.y += 1.0f;
+        // Example of keyboard input
+        if (RocketEngine::Input::KeyPressed(RocketEngine::KeyCode::Space))
+        {
+            // Increment object's y rotation
+            object.transform.rotation.y += 1.0f;
+        }
 
+        // Example of mouse input
+        if (RocketEngine::Input::MouseButtonPressed(RocketEngine::MouseCode::ButtonLeft))
+        {
+            // Increment object's x rotation
+            object.transform.rotation.x += 1.0f;
+            // Log mouse position
+            std::cout << RocketEngine::Input::MousePosition().x << " " << RocketEngine::Input::MousePosition().y << std::endl;
+        }
+            
         // ---RENDERING---
         // Clear Screen
         renderer.Clear(camera.backgroundColor);

@@ -18,9 +18,9 @@ namespace RocketEngine
     {
     private:
         Loaders() {}
+        static Loaders& Get() { static Loaders s_Instance; return s_Instance; }
     public:
         Loaders(const Loaders&) = delete;
-        static Loaders& Get() { static Loaders s_Instance; return s_Instance; }
     public:
         static ShaderSources LoadShader(const std::string& filePath) { return Get().LoadShaderImp(filePath); }
         static Image LoadImage(const std::string& filePath) { return Get().LoadImageImp(filePath); }

@@ -1,7 +1,5 @@
 #include "RocketEngine/Core/OpenGLRenderer/Renderer.h"
 
-#include <iostream>
-
 #include <glad/glad.h>
 
 #include "RocketEngine/Core/OpenGLRenderer/GLCall.h"
